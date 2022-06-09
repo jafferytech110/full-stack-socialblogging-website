@@ -1,0 +1,38 @@
+{
+  "name": "full-stack-socialblogging-website",
+  "version": "1.0.0",
+  "description": "it is a social blogging website with user accounts and open live chat feature. powered by express js at backend.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "nodemon app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jafferytech110/full-stack-socialblogging-website.git"
+  },
+  "keywords": [
+    "Express",
+    "js",
+    "MongoDB",
+    "Node",
+    "js",
+    "Social",
+    "Blogging",
+    "FullStack",
+    "web",
+    "development"
+  ],
+  "author": "JafferyTech",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jafferytech110/full-stack-socialblogging-website/issues"
+  },
+  "homepage": "https://github.com/jafferytech110/full-stack-socialblogging-website#readme",
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "nodemon": "^2.0.16",
+    "validator": "^13.7.0"
+  }
+}
