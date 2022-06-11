@@ -1,5 +1,6 @@
 const validator = require('validator')
 const userCollection = require('../db').collection('users')
+const bcrypt = require('bcryptjs')
 
 let User = function ({username, email, password}) {
         this.username = username
@@ -48,6 +49,9 @@ User.prototype.register = function () {
 
     // step 2: saving data in DB
     if(!this.errors.length){
+        // hashing password
+        let salt = bcrypt.genSaltSync(10)
+        this.password = bcrypt.hashSync(this.password, salt)
         userCollection.insertOne({username: this.username, email: this.email, password:this.password})
     }
 }
@@ -57,7 +61,7 @@ User.prototype.login = function () {
     return new Promise((resolve,reject) => {
         this.cleanUp()
         userCollection.findOne({username: this.username}).then((foundUser)=>{
-            if(foundUser && foundUser.password == this.password){
+            if(foundUser && bcrypt.compareSync(this.password, foundUser.password)){
                 resolve("logged in")
             }else{  
                 reject("invalid username or password")
