@@ -1,7 +1,13 @@
 const User = require('../models/User')
 
-exports.login = () => {
-
+exports.login = (req,res) => {
+    let user = new User(req.body)
+    // login is returning a promise
+    user.login().then((reply)=>{
+        res.send(reply)
+    }).catch((err)=>{
+        res.send(err)
+    })
 }
 
 exports.logout = () => {

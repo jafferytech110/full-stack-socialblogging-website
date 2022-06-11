@@ -1,4 +1,5 @@
 const validator = require('validator')
+const userCollection = require('../db').collection('users')
 
 let User = function ({username, email, password}) {
         this.username = username
@@ -6,6 +7,21 @@ let User = function ({username, email, password}) {
         this.password = password
         this.errors = []
 }
+
+User.prototype.cleanUp = function () {
+    if(typeof(this.username) != "string") {
+        this.username = ""
+    }
+    if(typeof(this.email) != "string") {
+        this.email = ""
+    }
+    if(typeof(this.password) != "string") {
+        this.password = ""
+    }
+    this.username.trim().toLowerCase()
+    this.email.trim().toLowerCase()
+}
+
 
 User.prototype.validate = function () {
     if(this.username == "") {
@@ -27,8 +43,29 @@ User.prototype.validate = function () {
 
 User.prototype.register = function () {
     // step 1: validating user data
+    this.cleanUp()
     this.validate()
 
+    // step 2: saving data in DB
+    if(!this.errors.length){
+        userCollection.insertOne({username: this.username, email: this.email, password:this.password})
+    }
+}
+
+
+User.prototype.login = function () {
+    return new Promise((resolve,reject) => {
+        this.cleanUp()
+        userCollection.findOne({username: this.username}).then((foundUser)=>{
+            if(foundUser && foundUser.password == this.password){
+                resolve("logged in")
+            }else{  
+                reject("invalid username or password")
+            }
+        }).catch(()=>{
+            reject("please try again later, server is down.")
+        })
+    })
 }
 
 
