@@ -1,5 +1,5 @@
 const validator = require('validator')
-const userCollection = require('../db').collection('users')
+const userCollection = require('../db').db().collection("users")
 const bcrypt = require('bcryptjs')
 
 let User = function ({username, email, password}) {
@@ -39,6 +39,9 @@ User.prototype.validate = function () {
     }
     if(this.password.length < 12) {
         this.errors.push("password must be at least 12 characters")
+    }
+    if(this.password.length > 30) {
+        this.errors.push("password must be at most 30 characters")
     }
 }
 
